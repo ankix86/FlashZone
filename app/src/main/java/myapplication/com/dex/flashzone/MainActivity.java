@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             camera.setParameters(para);
             camera.startPreview();
             IsOFF = false;
-            Leaver.setImageResource(R.drawable.LeverON);
+            Leaver.setImageResource(R.drawable.imgon);
             Log.v("Message", "show =" + IsOFF);
         }
     }
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             camera.setParameters(para);
             camera.stopPreview();
             IsOFF = true;
-            Leaver.setImageResource(R.drawable.LeverOFF);
+            Leaver.setImageResource(R.drawable.imgoff);
             Log.v("Message", "show =" + IsOFF);
         }
     }
