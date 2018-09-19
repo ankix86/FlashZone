@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#030405"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -18,13 +19,15 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="OFF"
-        android:onClick="clickleaver"
+    <ImageView
         android:id="@+id/leaver"
+        android:layout_width="300dp"
+        android:layout_height="500dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/LeverOFF"
+        android:onClick="clickleaver"
+        android:padding="236dp"
+        android:scaleType="fitCenter"
         />
 
 </LinearLayout>

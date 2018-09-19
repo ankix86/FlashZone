@@ -9,9 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.hardware.Camera;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,13 +18,13 @@ public class MainActivity extends AppCompatActivity {
     Camera.Parameters para;
     private static boolean IsOFF;
     private static boolean HasFlash;
-    Button Leaver;
+    ImageView Leaver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Leaver = (Button) findViewById(R.id.leaver);
+        Leaver = (ImageView) findViewById(R.id.leaver);
         checkCameraExcite();
         GetCamera();
         //cheackCameraAlloworNot
@@ -101,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             camera.setParameters(para);
             camera.startPreview();
             IsOFF = false;
-            Leaver.setText("OFF");
+            Leaver.setImageResource(R.drawable.LeverON);
             Log.v("Message", "show =" + IsOFF);
         }
     }
@@ -116,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             camera.setParameters(para);
             camera.stopPreview();
             IsOFF = true;
-            Leaver.setText("ON");
+            Leaver.setImageResource(R.drawable.LeverOFF);
             Log.v("Message", "show =" + IsOFF);
         }
     }
