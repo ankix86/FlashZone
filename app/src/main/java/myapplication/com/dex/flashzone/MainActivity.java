@@ -9,22 +9,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.media.MediaPlayer;
 import android.hardware.Camera;
+import android.widget.Button;
 import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
     Camera camera;
     Camera.Parameters para;
-    private static boolean IsOFF;
-    private static boolean HasFlash;
-    ImageView Leaver;
+    private Boolean IsOFF=true;
+    private Boolean HasFlash;
+    private MediaPlayer mediaPlayer;
+    private ImageView Leaver;
+    private Button DisplayColorBtn,BlinkLight;
+    String Mystr = "010101010101010101010101010101";
+    long blinkDelay = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Leaver = (ImageView) findViewById(R.id.leaver);
+        DisplayColorBtn = (Button) findViewById(R.id.discolor);
+        BlinkLight = (Button) findViewById(R.id.Blinking);
         checkCameraExcite();
         GetCamera();
         //cheackCameraAlloworNot
@@ -35,12 +43,37 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void BlickBtn(View view){
+                BlinkLight();
+    }
+    private void BlinkLight(){
+        //Delay in ms
+        for (int i = 0; i < Mystr.length(); i++) {
+            if (Mystr.charAt(i) == '0') {
+               FlashOn();
+            } else {
+                FlashOff();
+            }
+            try {
+                Thread.sleep(blinkDelay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void clickopencolor(View view){
+        Intent intentC = new Intent(MainActivity.this,displaylight.class);
+        startActivity(intentC);
+    }
+
     public void clickleaver(View view) {
         if (!IsOFF) {
             FlashOff();
         } else {
             FlashOn();
         }
+        PlaySound();
     }
 
     private void checkCameraExcite() {
@@ -101,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
             camera.startPreview();
             IsOFF = false;
             Leaver.setImageResource(R.drawable.imgon);
+            ImageExchanger();
             Log.v("Message", "show =" + IsOFF);
         }
     }
@@ -115,10 +149,32 @@ public class MainActivity extends AppCompatActivity {
             camera.setParameters(para);
             camera.stopPreview();
             IsOFF = true;
-            Leaver.setImageResource(R.drawable.imgoff);
+            ImageExchanger();
             Log.v("Message", "show =" + IsOFF);
         }
     }
+
+    private void ImageExchanger(){
+        if(!IsOFF){
+            Leaver.setImageResource(R.drawable.imgon);
+            Log.v("image :","image = Off" );
+        }else {
+            Leaver.setImageResource(R.drawable.imgoff);
+            Log.v("image :","image = on" );
+        }
+    }
+
+  private void PlaySound(){
+        mediaPlayer = MediaPlayer.create(this,R.raw.click);
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer m) {
+                m.release();
+            }
+        });
+        mediaPlayer.start();
+    }
+
 }
 
 

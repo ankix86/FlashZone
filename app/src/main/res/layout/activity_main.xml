@@ -4,30 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#030405"
+    android:padding="8dp"
+    android:background="#0c0d38"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/leaver"
+            android:id="@+id/Blinking"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="8dp"
+            android:onClick="BlickBtn"
+            android:text="Blink Light"
+            />
+        <ImageView
+            android:id="@+id/leaver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/imgoff"
+            android:onClick="clickleaver"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter" />
+
+        <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:layout_gravity="center"
-        android:text="FlashLight"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/leaver"
-        android:layout_width="300dp"
-        android:layout_height="500dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/imgoff"
-        android:onClick="clickleaver"
-        android:padding="236dp"
-        android:scaleType="fitCenter"
+        android:layout_below="@id/leaver"
+        android:id="@+id/discolor"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="8dp"
+        android:onClick="clickopencolor"
+        android:text="RGB Light"
         />
+
+    </RelativeLayout>
+
 
 </LinearLayout>
