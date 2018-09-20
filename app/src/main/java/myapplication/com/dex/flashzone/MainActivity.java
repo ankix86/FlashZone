@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private ImageView Leaver;
     private Button DisplayColorBtn,BlinkLight;
-    String Mystr = "010101010101010101010101010101";
+    String Mystr = "0101010101010101010101010101010101010101";
     long blinkDelay = 50;
 
     @Override
