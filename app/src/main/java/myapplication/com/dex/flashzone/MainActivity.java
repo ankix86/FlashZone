@@ -3,7 +3,10 @@ package myapplication.com.dex.flashzone;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,8 +16,11 @@ import android.media.MediaPlayer;
 import android.hardware.Camera;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements savedata{
 
     Camera camera;
     Camera.Parameters para;
@@ -23,18 +29,32 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private ImageView Leaver;
     private Button DisplayColorBtn,BlinkLight;
-    String Mystr = "0101010101010101010101010101010101010101";
-    long blinkDelay = 50;
+    String Mystr = "0101010101010101010101010101";
+    int blinkDelay = 50;
+    private LinearLayout background;
+    private SeekBar blinkspeed;
+    private static final String PREFS = "storeddata";
 
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Leaver = (ImageView) findViewById(R.id.leaver);
         DisplayColorBtn = (Button) findViewById(R.id.discolor);
+        background = (LinearLayout) findViewById(R.id.background);
         BlinkLight = (Button) findViewById(R.id.Blinking);
+        blinkspeed = (SeekBar) findViewById(R.id.seekbar);
+        blinkspeed.setMax(200);
         checkCameraExcite();
         GetCamera();
+        SetBlinkSpeed();
+        LoadSettings();
+
+
+
         //cheackCameraAlloworNot
         if (cameraAllowed() != true) {
             Intent intent = new Intent(this, MainActivity.class);
@@ -43,14 +63,40 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void BlickBtn(View view){
-                BlinkLight();
+    private void SetBlinkSpeed(){
+
+        blinkspeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                int MIN = 15;
+                if (i < MIN) {
+                    Log.v("msg", "No More Decrement");
+                } else {
+                    blinkDelay = i;
+                    SaveSettings();
+                    Log.v("msg", "speed" + blinkDelay);
+                }
+
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
     }
-    private void BlinkLight(){
+
+    public void BlickBtn(View view) {
+            BlickFun();
+    }
+    private void BlickFun(){
         //Delay in ms
         for (int i = 0; i < Mystr.length(); i++) {
             if (Mystr.charAt(i) == '0') {
-               FlashOn();
+                FlashOn();
             } else {
                 FlashOff();
             }
@@ -63,9 +109,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickopencolor(View view){
-        Intent intentC = new Intent(MainActivity.this,displaylight.class);
-        startActivity(intentC);
-    }
+           Intent intentC = new Intent(MainActivity.this, displaylight.class);
+           startActivity(intentC);
+       }
 
     public void clickleaver(View view) {
         if (!IsOFF) {
@@ -157,9 +203,12 @@ public class MainActivity extends AppCompatActivity {
     private void ImageExchanger(){
         if(!IsOFF){
             Leaver.setImageResource(R.drawable.imgon);
+            background.setBackgroundResource(R.drawable.bgon);
+
             Log.v("image :","image = Off" );
         }else {
             Leaver.setImageResource(R.drawable.imgoff);
+            background.setBackgroundResource(R.drawable.bgoff);
             Log.v("image :","image = on" );
         }
     }
@@ -173,6 +222,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mediaPlayer.start();
+    }
+    @Override
+    public void SaveSettings(){
+        SharedPreferences.Editor editor = getSharedPreferences(PREFS,MODE_PRIVATE).edit();
+        editor.putInt("blinkDelay",blinkDelay);
+        Log.v("show","saved = "+blinkDelay);
+        editor.apply();
+    }
+    @Override
+    public void LoadSettings(){
+        SharedPreferences RestorData = getSharedPreferences(PREFS,MODE_PRIVATE);
+        blinkDelay = RestorData.getInt("blinkDelay",0);
+        blinkspeed.setProgress(blinkDelay);
+        Log.e("show","saved = "+blinkDelay);
     }
 
 }

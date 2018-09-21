@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    android:background="#0c0d38"
+    android:background="@drawable/bgoff"
+    android:id="@+id/background"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -13,36 +14,55 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/leaver"
-            android:id="@+id/Blinking"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="8dp"
-            android:onClick="BlickBtn"
-            android:text="Blink Light"
-            />
+
+
         <ImageView
             android:id="@+id/leaver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="154dp"
             android:background="@drawable/imgoff"
             android:onClick="clickleaver"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
             android:scaleType="fitCenter" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="149dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/blinkspeedmenu" />
+
+        <SeekBar
+            android:id="@+id/seekbar"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/Blinking"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="16dp"
+            android:scaleX="2"
+            android:scaleY="2" />
+
         <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/leaver"
-        android:id="@+id/discolor"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="8dp"
-        android:onClick="clickopencolor"
-        android:text="RGB Light"
-        />
+            android:id="@+id/Blinking"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/blinkbtn"
+            android:onClick="BlickBtn" />
+
+        <Button
+            android:id="@+id/discolor"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/rgbbtn"
+            android:onClick="clickopencolor" />
 
     </RelativeLayout>
 
