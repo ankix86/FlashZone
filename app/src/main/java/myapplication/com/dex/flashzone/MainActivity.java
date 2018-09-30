@@ -237,7 +237,6 @@ public class MainActivity extends AppCompatActivity implements savedata{
         blinkspeed.setProgress(blinkDelay);
         Log.e("show","saved = "+blinkDelay);
     }
-
 }
 
 

@@ -9,6 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Choose Color"
+        android:background="#4f000000"
+        android:textColor="#FFFFFF"
         android:id="@+id/colorpicker"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
