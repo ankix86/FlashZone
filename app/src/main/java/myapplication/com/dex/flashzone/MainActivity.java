@@ -30,12 +30,11 @@ public class MainActivity extends AppCompatActivity implements savedata {
     private MediaPlayer mediaPlayer;
     private ImageView Leaver;
     private Button DisplayColorBtn, BlinkLight;
-    String Mystr = "0101010101010101010101010101";
     int blinkDelay = 50;
     private LinearLayout background;
     private SeekBar blinkspeed;
     private static final String PREFS = "storeddata";
-    public volatile boolean isBlinking = false;
+    public volatile boolean isBlinking;
     public Handler handler = new Handler();
 
 
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements savedata {
         background = (LinearLayout) findViewById(R.id.background);
         BlinkLight = (Button) findViewById(R.id.Blinking);
         blinkspeed = (SeekBar) findViewById(R.id.seekbar);
-        blinkspeed.setMax(200);
+        blinkspeed.setMax(250);
         checkCameraExcite();
         GetCamera();
         SetBlinkSpeed();
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements savedata {
         blinkspeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                int MIN = 50;
+                int MIN = 90;
                 if (i < MIN) {
                     Log.v("msg", "No More Decrement");
                 } else {
@@ -96,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements savedata {
 
 
     public void clickopencolor(View view) {
+        PlaySound();
         Intent intentC = new Intent(MainActivity.this, displaylight.class);
         startActivity(intentC);
     }
@@ -238,9 +238,9 @@ public class MainActivity extends AppCompatActivity implements savedata {
     }
     public class BlinkThread implements Runnable{
         public void run(){
-            for (;;)
-            {
-                if(isBlinking)
+            PlaySound();
+            for (;;) {
+                if (isBlinking)
                     return;
                 handler.post(new Runnable() {
                     @Override
