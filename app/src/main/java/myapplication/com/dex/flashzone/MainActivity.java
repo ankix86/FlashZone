@@ -30,12 +30,13 @@ public class MainActivity extends AppCompatActivity implements savedata {
     private MediaPlayer mediaPlayer;
     private ImageView Leaver;
     private Button DisplayColorBtn, BlinkLight;
-    int blinkDelay = 50;
+    int blinkDelay = 1000;
     private LinearLayout background;
     private SeekBar blinkspeed;
     private static final String PREFS = "storeddata";
-    public volatile boolean isBlinking;
+    public volatile boolean isBlinking = true;
     public Handler handler = new Handler();
+    Thread thread;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements savedata {
         background = (LinearLayout) findViewById(R.id.background);
         BlinkLight = (Button) findViewById(R.id.Blinking);
         blinkspeed = (SeekBar) findViewById(R.id.seekbar);
-        blinkspeed.setMax(250);
+        blinkspeed.setMax(2000);
         checkCameraExcite();
         GetCamera();
         SetBlinkSpeed();
@@ -70,30 +71,25 @@ public class MainActivity extends AppCompatActivity implements savedata {
         blinkspeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                int MIN = 90;
+                int MIN = 50;
                 if (i < MIN) {
                     Log.v("msg", "No More Decrement");
                 } else {
                     blinkDelay = i;
+                    System.out.print("SeekBar value :" + i);
                     SaveSettings();
                     Log.v("msg", "speed" + blinkDelay);
                 }
 
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
     }
-
-
-
     public void clickopencolor(View view) {
         PlaySound();
         Intent intentC = new Intent(MainActivity.this, displaylight.class);
@@ -227,20 +223,16 @@ public class MainActivity extends AppCompatActivity implements savedata {
         Log.e("show", "saved = " + blinkDelay);
     }
     public void BlickBtn(View view) {
-        BlinkThread Bt = new BlinkThread();
-        if(isBlinking){
-            isBlinking = false;
-        }else {
-            isBlinking = true;
-        }
         BlinkThread bt = new BlinkThread();
-        new Thread(bt).start();
+        isBlinking = !isBlinking;
+        thread = new Thread(bt);
+        thread.start();
+        PlaySound();
     }
     public class BlinkThread implements Runnable{
         public void run(){
-            PlaySound();
             for (;;) {
-                if (isBlinking)
+                if (!isBlinking)
                     return;
                 handler.post(new Runnable() {
                     @Override
